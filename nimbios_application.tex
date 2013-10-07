@@ -1,0 +1,199 @@
+\documentclass{article}
+
+\begin{document}
+%  Title (descriptive title of planned research, 80 characters max)
+% Name and contact information
+
+\section{Project Summary} 
+%(200 words max) - appropriate for public distribution on the NIMBioS web site
+% 4 Lines on Gilchrist's summary
+% 1 line on our application
+
+
+Many problems in computational biology require efficient sampling
+methods in order to make inferences from large-scale, high-dimensional
+datasets.  While Markov Chain Monte Carlo (MCMC) methods and
+ubiquitous computing power have allowed researchers to explore
+previously intractable distributions, there remain entire classes of
+problems for which existing MCMC algorithms prove inadequate.  One
+such class includes Bayesian posterior sampling problems which require
+evaluation of a likelihood function that can only be computed exactly
+up to a normalizing constant.  A second, nested application of MCMC is
+required to estimate the normalization constant, leading researchers
+to refer to such distributions as ``doubly intractable''\cite{murray06}.
+
+In this project we aim to develop a software library and validation
+suite to facilitate sampling from doubly intractable distributions.
+We intend for our computational tools to be of broad utility to
+researchers in the biological and statistical sciences by providing a
+unified interface to existing algorithms for sampling from doubly
+intractable distributions as well as integrated support for cluster
+computing resources.  Applications to the authors' own work in the
+evolution of coding sequences and gene regulatory networks are immediate.
+
+
+\section{Introduction and Goals}
+%- what important problem at the math/biology interface is being addressed?
+% Generic goal: software library for doubly intractable MCMC
+% Doubly intractable MCMC problems arise in many biological applications
+Often in computational biology one wishes to sample from a posterior
+distribution $P(\theta|y)$ of models belonging to some class $\Theta$
+given data $y$.  In Metropolis-Hastings sampling, one need only be
+able to compute the prior probability $P(\theta)$ and the likelihood
+$P(y|\theta)$ in order to construct a sampling algorithm for
+$P(\theta|y)$.  In many contexts, however, the likelihood
+$P(y|\theta)$ is itself difficult to compute---often it is only known
+up to a normalization constant $Z(\theta)$ which usually can only be
+estimated through a second round of Metropolis-Hastings sampling.  The
+problem of sampling from ``doubly intractable'' distributions
+therefore poses a difficult challenge to the computational biologists
+who encounter them in such diverse areas as molecular evolution,
+phylogenetics and the analysis of gene regulatory networks.
+
+Our primary aim is to develop a software library which embodies the
+state of the art in sampling algorithms for doubly intractable
+distributions.  In particular, we intend to implement the Auxiliary
+Variable Method \cite{moller06}, Single Variable Exchange Algorithm
+\cite{murray06}, and the adaptive Wang-Landau-type MCMC algorithm
+described in \cite{atchade08}.  Due to the embarrassingly parallel
+nature of the sampling problem, we also intend for our library to
+efficiently leverage the capabilities of multi-core desktops and
+cluster computing environments without additional overhead for the end
+user.  Despite the centrality of doubly intractable distributions to
+many areas of biological research, resources for sampling from them
+are generally lacking, and we consider this state of affairs a
+significant impediment to research in computational biology.  
+
+Once development is complete and the software is released to the
+community, we envision several immediate applications.  For example,
+the applicant's current research focuses on the evolution of
+transcriptional regulation.  To that end, we have developed a detailed
+\textit{in silico} biophysical model of transcription factor / binding
+site coevolution which allows us to study the properties of
+transcriptional systems which evolve to solve various regulatory
+tasks.  Often, however, we wish to pose the inverse problem: given a
+partially observed regulatory system, \textit{i.e.} a collection of
+experimentally-verified binding sites, what is the posterior
+distribution over the space of hypotheses about the original
+regulatory requirements?  The resulting distribution is in fact doubly
+intractable, as the fitness $P(y|\theta)$ of a given regulatory system
+$y$ given an evolutionary environment $\theta$ depends on the fitness of
+all other possible systems under that environment.  
+
+Another application arises from the observation that the collection of
+binding sites is only a subset of the full regulatory system, which at
+the very least includes features such as an energy model of the
+DNA-binding domain of the transcription factor, its copy number, and
+so on.  This leads to a missing data problem in which one wishes to
+sample from the posterior $P(\theta|y)$ when one has only the data
+$y'$ where $y'\subset y$.  Such problems can be shown to require the
+evaluation of integrals of the form $\int_{y|y'\subset
+  y}P(y|\theta)dy$.  Such distributions are therefore \textit{triply}
+intractable, and require additional research in order to obtain
+efficient sampling algorithms.
+
+
+% For example, using this library w/ ESTReMo allows us to address...
+\section{Proposed Activities and Rationale for NIMBioS Support}
+We feel that NIMBioS provides an unparalleled opportunity to
+collaborate with scientists working at the interface of biological and
+mathematical research.  Although the proposed project can be
+considered as a purely statistical problem, it arose directly from
+practical issues in modeling evolutionary biology.  In fact, it arose
+independently in our work and in the work of Michael Gilchrist, with
+whom we are very interested in collaborating at NIMBioS.  Therefore,
+we feel that the methods we intend to implement will be of very
+general use, and consider the environment at NIMBioS to uniquely
+suited for soliciting feedback from other mathematical biologists in
+order to produce the most broadly useful tools for the research
+community.
+
+We respectfully request support for travel and lodging, as well as
+access to NIMBioS's high performance computing facilities for the
+purpose of developing and testing the parallelization of our sampling
+library.
+
+% - Why can this activity be most effectively conducted at NIMBioS? Also
+% specify what support you are requesting from NIMBioS (travel, lodging,
+% etc.).
+
+% NIMBioS is a unique buzzword buzzword buzzword... Jiang, Russ, Mike, &c. ("resource")
+
+\section{Anticipated IT Needs} 
+% - Briefly describe any needs for IT support that
+% are important to the success of the proposed project, including
+% support for coding, high performance computing, and development and
+% maintenance of public databases.
+
+We will develop all of our own software, but it would be very useful
+to have access to NIMBioS's HPC facilities for development and testing
+of parallel algorithms.  While we possess prior experience with
+cluster computing environments, we acknowledge the differences which
+exist between systems and might perhaps benefit from a short
+introduction to NIMBioS's facilities by a member of the scientific
+computing staff.
+
+\section{Proposed Collaborators} 
+% (if any) and 
+We are primarily interested in collaborating with Michael Gilchrist
+and his colleagues Russell Zaretzki and Jian Huang at University of
+Tennessee, Knoxville.  We would also, however, be very excited to meet
+broadly with the NIMBioS community in order to identify applications
+or extensions for our software in other projects.
+
+\section{Timetable}
+
+We envision a short-term visit on the order of one week, beginning on
+or about Wednesday November 13, 2013, lasting until Friday, November
+22 2013.  During that period we intend to accomplish the following:
+\begin{enumerate}
+\item Preliminaries
+  \begin{enumerate}
+  \item Introductory meetings with principal collaborators
+  \item Presentation of literature review
+  \item Meetings with other members of NIMBioS community (throughout)
+  \item Formal project definition
+  \end{enumerate}
+  % Project definition,
+  % language negotiations, parallelization options, benchmark/validation
+  % suite
+\item Development
+  \begin{enumerate}
+  \item Implementation of algorithms
+  \item Parallelization and meetings with scientific computing staff
+  \item Generalization of statistical framework to treat missing data problems
+  \end{enumerate}
+\item Testing
+  \begin{enumerate}
+  \item Validation and benchmarking
+  \item Application to Dr. Gilchrist's work in the evolution of coding sequences
+  \item Application to ESTReMo
+  \item Other applications to NIMBioS community.
+  \end{enumerate}
+\item Conclusion
+  \begin{enumerate}
+  \item Release of open-source library
+  \item Definition of further project aims to be concluded remotely.
+  \end{enumerate}
+\end{enumerate}
+% (including start
+% date). Local collaborators must send a short letter to NIMBioS
+% confirming they are interested and available. The letter can be sent
+% with the application or sent separately to Chris Welsh at
+% cwelsh@nimbios.org.  
+
+\section{Anticipated Results}
+\begin{itemize}
+  \item Software library
+  \item Performance study on benchmark/validation suite
+  \item Generalization to missing data problems
+  \item Gilchrist's application
+  \item Estremo application
+  \item pubs?
+\end{itemize}
+
+Short CV of the Applicant (2 pages) 
+
+\bibliography{../bib/bibliography}{}
+\bibliographystyle{abbrv} \newpage
+\end{document}
